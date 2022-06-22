@@ -1,0 +1,6 @@
+openapi: 3.0.0
+info:
+  version: 0.0.1
+  title: Terra-Viva API
+  description: |
+    This API allow to interact with the Terra-Viva backend
