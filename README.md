@@ -73,7 +73,7 @@ WHERE user_uuid = ? AND variety_id = ?;
 ### /users/{username}/accounts/follower
 [GET] get the followers paged list of the user
 ```sql
-SELECT follower_uuid, followed_uuid
+SELECT follower_uuid
 FROM user_followers
 WHERE followed_uuid = ?;
 ```
