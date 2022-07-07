@@ -28,7 +28,7 @@ WHERE uuid = ? ;
 //sasi
 [GET] get profile image thumbnail and username
 
-## User's varieties related API
+# User's varieties related API
 ### /users/{username}/my-varieties
 //sasi
 [GET] get user varieties paged list
