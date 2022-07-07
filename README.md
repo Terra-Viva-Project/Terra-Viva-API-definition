@@ -6,6 +6,11 @@ api specification milestone
 ### /users/{username}
 //sasi
 [GET] get user information
+```sql
+SELECT uuid, username, birth_date, subscribe_datetime, email, name, surname, verified, bio, profile_image
+FROM
+	users ;
+```
 [PUT] update user information
 ```sql
 UPDATE users 
@@ -22,19 +27,42 @@ WHERE uuid = ? ;
 ```
 //sasi
 [DELETE] delete user account
+```sql
+DELETE FROM users
+WHERE users.uuid=?;
+```
 //sasi
 [POST] add new user
+```sql
+INSERT INTO users
+	( username, birth_date, subscribe_datetime, email, name, surname, verified, bio, profile_image) 
+	VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? );
+```
 ### /users/{username}/snapshot
 //sasi
 [GET] get profile image thumbnail and username
-
-## User's varieties related API
+```sql
+SELECT username, profile_image
+FROM
+	users ;
+```
+# User's varieties related API
 ### /users/{username}/my-varieties
 //sasi
 [GET] get user varieties paged list
+```sql
+SELECT user_uuid, variety_id
+FROM
+	rt__user_varieties ;
+```
 ### /users/{username}/my-varieties/{variety_id}
 //sasi
 [DELETE] delete user variety
+```sql
+DELETE FROM rt__user_varieties
+WHERE rt__user_varieties.user_uuid=? 
+AND rt__user_varieties.variety_id=?;
+```
 ### /users/{username}/my-varieties/followed
 //nic
 [GET] get the followed varieties paged list
@@ -49,7 +77,6 @@ VALUES ( ?, ? );
 DELETE FROM variety_followers
 WHERE user_uuid = ? AND variety_id = ?;
 ```
-
 ## User's tags realated API
 ### /users/{username}/my-tags/followed
 //nic
@@ -57,6 +84,10 @@ WHERE user_uuid = ? AND variety_id = ?;
 ### /users/{username}/my-tags/followed/{tag_name}
 //sasi
 [POST] follow the tag
+```sql
+INSERT INTO tag_followers
+	( tag_uuid, user_uuid) VALUES ( ?, ? );
+```
 //nic
 [DELETE] unfollow the tag
 
