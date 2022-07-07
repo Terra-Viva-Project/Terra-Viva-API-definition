@@ -72,6 +72,11 @@ WHERE user_uuid = ? AND variety_id = ?;
 [DELETE] unfollow a user
 ### /users/{username}/accounts/follower
 [GET] get the followers paged list of the user
+```sql
+SELECT follower_uuid
+FROM user_followers
+WHERE followed_uuid = ?;
+```
 
 ## User's species related API
 ### /users/{username}/my-species/followed
@@ -87,6 +92,10 @@ WHERE species_followers.user_uuid = '';
 //nic
 [POST] follow a species
 [DELETE] unfollow a species
+```sql
+DELETE FROM species_followers
+WHERE species_followers.user_uuid = ? AND species_followers.species_id = ?;
+```
 
 ## User's post related API
 ### /users/{username}/posts
@@ -100,9 +109,24 @@ WHERE species_followers.user_uuid = ''
 ORDER BY species_followers.follow_datetime DESC;
 ```
 [POST] create a new post
+```sql
+INSERT INTO posts ( user_uuid, message) 
+           VALUES ( ?, ? );
+```
+
 [PUT] modify a post
+```sql
+UPDATE posts 
+SET 
+    message = ? ;
+WHERE posts.uuid = ? ;
+```
+
 ### /users/{username}/posts/{post_uuid}
 [DELETE] delete a post
+```sql
+
+```
 
 ## User's followed things
 ### /user/{username}/news
@@ -118,6 +142,11 @@ ORDER BY species_followers.follow_datetime DESC;
 ## Tags related API
 ### /tags
 [POST] create a new tag
+```sql
+INSERT INTO tags ( tag) 
+          VALUES ( ? );
+```
+
 ### /tags/{tag_name}
 [GET] get information about a tag
 - how many times is used in posts
@@ -148,6 +177,12 @@ WHERE tags.tag = '';
 ## Posts related 
 ### /posts/{post_uuid}
 [GET] get the information about the post
+```sql
+SELECT user_uuid, uuid, message, created_datetime
+FROM posts;
+WHERE posts.uuid = ? ;
+```
+
 ### /posts/{post_uuid}/comments
 [GET] get the comments three of the posts
 ```sql
@@ -168,7 +203,10 @@ ORDER BY path;
 ## Like related
 ### /likes
 [POST] the user like the post
-
+```sql
+INSERT INTO post_likes ( post_uuid, user_uuid) 
+                VALUES ( ?, ? );
+```
 
 request:
 body{
