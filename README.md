@@ -49,7 +49,6 @@ VALUES ( ?, ? );
 DELETE FROM variety_followers
 WHERE user_uuid = ? AND variety_id = ?;
 ```
-
 ## User's tags realated API
 ### /users/{username}/my-tags/followed
 //nic
