@@ -4,7 +4,6 @@ api specification milestone
 
 ## Users related API
 ### /users/{username}
-//sasi
 [GET] get user information
 ```sql
 SELECT uuid, username, birth_date, subscribe_datetime, email, name, surname, verified, bio, profile_image
@@ -25,13 +24,11 @@ SET
 	profile_image = ?
 WHERE uuid = ? ;
 ```
-//sasi
 [DELETE] delete user account
 ```sql
 DELETE FROM users
 WHERE users.uuid=?;
 ```
-//sasi
 [POST] add new user
 ```sql
 INSERT INTO users
@@ -39,7 +36,6 @@ INSERT INTO users
 	VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? );
 ```
 ### /users/{username}/snapshot
-//sasi
 [GET] get profile image thumbnail and username
 ```sql
 SELECT username, profile_image
@@ -48,7 +44,6 @@ FROM
 ```
 # User's varieties related API
 ### /users/{username}/my-varieties
-//sasi
 [GET] get user varieties paged list
 ```sql
 SELECT user_uuid, variety_id
@@ -56,7 +51,6 @@ FROM
 	rt__user_varieties ;
 ```
 ### /users/{username}/my-varieties/{variety_id}
-//sasi
 [DELETE] delete user variety
 ```sql
 DELETE FROM rt__user_varieties
