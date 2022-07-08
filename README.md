@@ -58,9 +58,14 @@ WHERE rt__user_varieties.user_uuid=?
 AND rt__user_varieties.variety_id=?;
 ```
 ### /users/{username}/my-varieties/followed
-//nic
+
 [GET] get the followed varieties paged list
 ### /users/{username}/my-varieties/followed/{variety_id}
+```sql
+SELECT  rt__users_varieties.variety_id, varieties.name
+FROM rt__users_varieties LEFT JOIN varieties ON variety_id = id
+WHERE user_uuid = ? ORDER BY varieties.name LIMIT ?, ?;
+```
 [POST] follow a variety
 ```sql
 INSERT INTO variety_followers ( variety_id, user_uuid) 
@@ -73,28 +78,48 @@ WHERE user_uuid = ? AND variety_id = ?;
 ```
 ## User's tags realated API
 ### /users/{username}/my-tags/followed
-//nic
+
 [GET] get the paged list of the tags followed by the user
 ### /users/{username}/my-tags/followed/{tag_name}
+```sql
+SELECT  tags.uuid, tags.tag
+FROM tag_followers LEFT JOIN tags ON tag_uuid = tags.uuid
+WHERE user_uuid = ? ORDER BY tags.tag LIMIT ?, ?;
+```
 //sasi
 [POST] follow the tag
 ```sql
 INSERT INTO tag_followers
 	( tag_uuid, user_uuid) VALUES ( ?, ? );
 ```
-//nic
 [DELETE] unfollow the tag
-
+```sql
+DELETE FROM tag_follwers
+LEFT JOIN tags  ON tag_uuid = tags.uuid
+WHERE user_uuid = ?  AND tag = ?;
+```
 ## User's followe[r|d] realated API
 **think to a better name for accounts**
 ### /users/{username}/accounts/followed
-//nic
+
 [GET] get the followed accounts paged list by the user
 ### /users/{username}/accounts/followed/{username}
-//nic
+```sql
+SELECT user_followers.followed_uuid, users.username
+LEFT JOIN users ON follower_uuid = users.uuid
+WHERE  user_followers.follower_uuid = ? ORDER BY username;
+```
+
 [POST] follow a user
-//nic
+```sql
+INSERT INTO user_followers (follower_uuid, followed_uuid,followe_datetime)
+VALUES (?, ?, TIMESTAMP);
+```
+
 [DELETE] unfollow a user
+```sql
+DELETE FROM user_followers WHERE follower_uuid=? AND followed_uuid=?;
+```
 ### /users/{username}/accounts/follower
 [GET] get the followers paged list of the user
 ```sql
@@ -114,8 +139,10 @@ FROM species_followers
 WHERE species_followers.user_uuid = '';
 ```
 ### /users/{username}/my-species/followed/{species_id}
-//nic
 [POST] follow a species
+```sql
+INSERT INTO species_followers (user_uuid, species_id) VALUES (?, ?, TIMESTAMP);
+```
 [DELETE] unfollow a species
 ```sql
 DELETE FROM species_followers
